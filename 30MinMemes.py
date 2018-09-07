@@ -31,7 +31,7 @@ client = pytumblr.TumblrRestClient(read_secrets('secrets_tumblr')[0],  # TUMBLR 
                                    read_secrets('secrets_tumblr')[3])
 
 # SETTINGS
-
+# test
 blog_name = '30-minute-memes'  # your blog name on the url www.BLOGNAME.tumblr.com
 
 subreddit = r.subreddit("funny+meirl+me_irl+AdviceAnimals+teenagers+HistoryMemes+anime_irl+bikibottomtwitter+blackpeoplegifs+blackpeopletwitter+comedycemetery+dankmemes+humor+meme_irl+memes+wholesomememes+surrealmemes+DeepFriedMemes+ComedyNecrophilia+bonehurtingjuice+trippinthroughtime+wholesomebpt+youdontsurf+4chan+fakehistoryporn+hmmm+dank_meme+2juicy4bones+deepfriedsurrealmemes+Patrig+whothefuckup+anthologymemes+equelMemes+OTMemes+PrequelMemes+SequelMemes+WhitePeopleTwitter+youtubehaiku+NotTimAndEric+InterdimensionalCable+gifs+combinedgifs+HighQualityGifs+reactiongifs+reallifedoodles+")     # subreddit(s) you want to grab posts from. if you want to do more than one do "sub1+sub2"
@@ -47,8 +47,6 @@ delete_images_when_done = False  # if you want the program to delete everything 
 
 def unic(msg):  # convert text for saving in .txt
     return msg.encode("utf-8")
-
-
 
 
 def getTags(redsub):    # input subreddit and
