@@ -1,3 +1,6 @@
 secrets_tumblr
 secrets_reddit
-.idea/
+.idea/misc.xml
+.idea/modules.xml
+.idea/reddit2tumblr-personal.iml
+.idea/workspace.xml
