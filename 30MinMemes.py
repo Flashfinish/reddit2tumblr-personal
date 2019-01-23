@@ -33,11 +33,11 @@ client = pytumblr.TumblrRestClient(read_secrets('secrets_tumblr')[0],  # TUMBLR 
 # SETTINGS
 blog_name = '30-minute-memes'  # your blog name on the url www.BLOGNAME.tumblr.com
 
-subreddit = r.subreddit("funny+meirl+me_irl+AdviceAnimals+teenagers+HistoryMemes+anime_irl+bikibottomtwitter+blackpeoplegifs+blackpeopletwitter+comedycemetery+dankmemes+humor+meme_irl+memes+wholesomememes+surrealmemes+DeepFriedMemes+ComedyNecrophilia+bonehurtingjuice+trippinthroughtime+wholesomebpt+youdontsurf+4chan+fakehistoryporn+hmmm+dank_meme+2juicy4bones+deepfriedsurrealmemes+Patrig+whothefuckup+anthologymemes+equelMemes+OTMemes+PrequelMemes+SequelMemes+WhitePeopleTwitter+youtubehaiku+NotTimAndEric+InterdimensionalCable+gifs+combinedgifs+HighQualityGifs+reactiongifs+reallifedoodles+")     # subreddit(s) you want to grab posts from. if you want to do more than one do "sub1+sub2"
+subreddit = r.subreddit("funny+meirl+me_irl+AdviceAnimals+teenagers+HistoryMemes+anime_irl+bikibottomtwitter+blackpeoplegifs+blackpeopletwitter+comedycemetery+instant_regret+dankmemes+humor+meme_irl+memes+wholesomememes+surrealmemes+DeepFriedMemes+tumblr+ComedyNecrophilia+bonehurtingjuice+trippinthroughtime+bonehurtingjuice+wholesomebpt+youdontsurf+fakehistoryporn+PornhubComments+hmmm+dank_meme+2juicy4bones+deepfriedsurrealmemes+Patrig+whothefuckup+anthologymemes+equelMemes+OTMemes+PrequelMemes+whitepeoplegifs+SequelMemes+WhitePeopleTwitter+youtubehaiku+NotTimAndEric+InterdimensionalCable+gifs+combinedgifs+HighQualityGifs+reactiongifs+reallifedoodles+")     # subreddit(s) you want to grab posts from. if you want to do more than one do "sub1+sub2"
 
 min_score = 50  # min score a post can have to post
 
-post_limit = 150    # number of posts you want to upload. if it fails to upload it still counts
+post_limit = 300    # number of posts you want to upload. if it fails to upload it still counts
 
 post_sort = 'day'   # how to tell reddit to sort them
 
@@ -125,7 +125,7 @@ def getTags(redsub):    # input subreddit and
         tags.extend(youtube)
 
     # GIFS
-    if str.lower(redsub) == 'gifs' or str.lower(redsub) == 'combinedgifs' or str.lower(redsub) == 'highqualitygifs' or str.lower(redsub) == 'reactiongifs' or str.lower(redsub) == 'reallifedoodles':
+    if str.lower(redsub) == 'gifs' or str.lower(redsub) == 'combinedgifs' or str.lower(redsub) == 'highqualitygifs' or str.lower(redsub) == 'reactiongifs' or str.lower(redsub) == 'reallifedoodles' or str.lower(redsub) == 'instant_regret' or str.lower(redsub) == 'whitepeoplegifs':
         print('Otput Tags: GIFS')
         tags.extend(gifs)
 
@@ -180,49 +180,50 @@ def main():
                 cache.write(submission.id + '\n')
 
                 # Image sites
-                if submission.domain == 'i.imgur.com' or submission.domain == 'm.imgur.com' or submission.domain == 'imgur.com' or submission.domain == 'i.reddit.com':
-
-                    print('\n______________________________\n')
+                if submission.domain == 'i.imgur.com' or submission.domain == 'm.imgur.com' or submission.domain == 'imgur.com' or submission.domain == 'i.reddit.com' or submission.domain == 'i.redd.it':
 
                     # GIFs (but not GIFV)
                     if '.gif' in submission.url and '.gifv' not in submission.url:
+                        print('\n______________________________\n')
                         print('File format: GIF')
                         urllib.request.urlretrieve(submission.url, 'images/' + submission.id + '.gif')
                         q_post('images/' + submission.id + '.gif', 'photo', submission.subreddit, submission.title)
-                        continue
+                        # continue
 
                     # JPG
                     elif '.jpg' in submission.url:
+                        print('\n______________________________\n')
                         print('File format: JPG')
                         urllib.request.urlretrieve(submission.url, 'images/' + submission.id + '.jpg')
                         q_post('images/' + submission.id + '.jpg', 'photo', submission.subreddit, submission.title)
-                        continue
+                        # continue
 
                     # PNG
                     elif '.png' in submission.url:
+                        print('\n______________________________\n')
                         print('File Format: PNG')
                         urllib.request.urlretrieve(submission.url, 'images/' + submission.id + '.png')
                         q_post('images/' + submission.id + '.png', 'photo', submission.subreddit, submission.title)
-                        continue
+                        # continue
 
                     # JPEG
                     elif '.JPEG' in submission.url:
+                        print('\n______________________________\n')
                         print('File Format: JPEG')
                         urllib.request.urlretrieve(submission.url, 'images/' + submission.id + '.JPEG')
                         q_post('images/' + submission.id + '.JPEG', 'photo', submission.subreddit, submission.title)
-                        continue
+                        # continue
 
                 # YouTube
-                if submission.domain == 'youtu.be' or submission.domain == 'youtube.com':
+                elif submission.domain == 'youtu.be' or submission.domain == 'youtube.com':
 
                     print('\n______________________________\n')
-
                     print('File Format: Video (YouTube)')
                     try:
                         os.system('youtube-dl ' + submission.url + ' -o images/' + submission.id + '.mp4')
                     except:
                         print('!!! Could not download YouTube video !!!')
-                        continue
+                        # continue
 
                     # this if elif is if the video came from youtubehaiku
                     # they put stuff like this in front of the name, so i remove it
@@ -231,14 +232,12 @@ def main():
                         new_title = submission.title[9:]
                     elif '[haiku]' in str.lower(submission.title):
                         new_title = submission.title[8:]
-                    q_post(current_dir + '/images/' + submission.id + '.mp4', 'video', submission.subreddit, new_title)
-                    continue
+                    q_post(current_dir + '/images/' + submission.id + '.webm', 'video', submission.subreddit, new_title)
+                    # continue
 
                 # GFYCAT
-                if '.gifv' in submission.url and submission.domain == 'gfycat.com':
-
+                elif '.gifv' in submission.url and submission.domain == 'gfycat.com':
                     print('\n______________________________\n')
-
                     print('File Format: GIF (GFYCAT)')
                     # gotta do substrings because the link reddit gives is wrong 100% of the time
                     gfycat_d = submission.url[:8] + 'thumbs.' + submission.url[8:] + '-size_restricted.gif'
@@ -246,24 +245,23 @@ def main():
                         urllib.request.urlretrieve(gfycat_d, 'images/' + submission.id + '.gif')
                     except:
                         print("!!! Tried to download GFYCAT, failed !!!")
-                        continue
+                        # continue
                     q_post('images/' + submission.id + '.gif', 'photo', submission.subreddit, submission.title)
-                    continue
+                    # continue
 
                 # v.reddit.com
-                if submission.domain == 'v.reddit.com':
-
+                elif submission.domain == 'v.reddit.com':
                     print('\n______________________________\n')
-
                     print('File format: Video (v.reddit)')
                     try:
                         os.system('youtube-dl ' + submission.url + ' -o images/' + submission.id + '.mp4')
                     except:
-                        print('!!! Could not download YouTube video !!!')
-                        continue
+                        print('!!! Could not download Reddit video !!!')
+                        # continue
 
                     q_post('images/' + submission.id + '.mp4', 'video', submission.subreddit, submission.title)
-                    continue
+                    # continue
+
             else:
                 print('Already have ' + submission.id + '!')
 
